@@ -1,0 +1,89 @@
+.wrapper {
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0 10px;
+  width: -moz-min-content;
+  width: min-content;
+  height: 500px;
+  border: 1px solid #000;
+  border-radius: 20px;
+  background: #000;
+}
+.wrapper .topbar {
+  display: flex;
+  align-items: center;
+  margin: 15px auto;
+  justify-content: space-between;
+}
+.wrapper .topbar .time {
+  color: #fff;
+}
+.wrapper .topbar .battery,
+.wrapper .topbar .signal {
+  display: inline;
+}
+.wrapper .display {
+  height: 40px;
+  margin: 0 5px;
+  padding: 10px;
+  text-align: right;
+  font-size: 40px;
+  color: #fff;
+  background: #000;
+}
+.wrapper .display,
+.wrapper .keyboard {
+  position: relative;
+  top: 60px;
+  border-radius: 20px;
+}
+.wrapper .keyboard {
+  display: grid;
+  gap: 2px;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  padding: 5px;
+}
+.wrapper .keyboard .key {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  margin: 4px;
+  border-radius: 50px;
+  font-size: 24px;
+}
+.wrapper .keyboard .key:hover {
+  border: 1px solid #222;
+}
+.wrapper .keyboard .option {
+  background: #777;
+  color: #000;
+}
+.wrapper .keyboard .operator {
+  background: orange;
+  color: #fff;
+}
+.wrapper .keyboard .number {
+  background: #333;
+  color: #fff;
+}
+.wrapper .keyboard .zero {
+  grid-column: 1/3;
+  width: 93%;
+  margin: 5px;
+}
+.test {
+  width: 10%;
+  margin: 10px auto;
+  border: 1px solid #000;
+  color: #fff;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background: #111;
+  font-family: sans-serif;
+}
