@@ -12,35 +12,35 @@
           </div>
         </div>
       </div>
-      <div class="display">{{ obj.display }}</div>
+      <div class="display">{{ display }}</div>
       <div class="keyboard">
         <div class="key option" @click="clear">AC</div>
         <div class="key option" @click="sign">+/-</div>
-        <div class="key option" @click="addOperator('%')">%</div>
-        <div class="key operator" @click="addOperator('/')">/</div>
+        <div class="key option" @click="getRes('%')">%</div>
+        <div class="key operator" @click="getRes('/')">/</div>
         <div class="key number" @click="addNum(7)">7</div>
         <div class="key number" @click="addNum(8)">8</div>
         <div class="key number" @click="addNum(9)">9</div>
-        <div class="key operator" @click="addOperator('*')">x</div>
+        <div class="key operator" @click="getRes('*')">x</div>
         <div class="key number" @click="addNum(4)">4</div>
         <div class="key number" @click="addNum(5)">5</div>
         <div class="key number" @click="addNum(6)">6</div>
-        <div class="key operator" @click="addOperator('-')">-</div>
+        <div class="key operator" @click="getRes('-')">-</div>
         <div class="key number" @click="addNum(1)">1</div>
         <div class="key number" @click="addNum(2)">2</div>
         <div class="key number" @click="addNum(3)">3</div>
-        <div class="key operator" @click="addOperator('+')">+</div>
+        <div class="key operator" @click="getRes('+')">+</div>
         <div class="key number zero" @click="addNum(0)">0</div>
         <div class="key number" @click="addPoint">.</div>
-        <div class="key operator" @click="getRes">=</div>
+        <div class="key operator" @click="getRes('=')">=</div>
       </div>
     </div>
     <div class="test">
-      <div>display: {{ obj.display }}</div>
-      <div>num1: {{ obj.num1 }}</div>
-      <div>num2: {{ obj.num2 }}</div>
-      <div>operator: {{ obj.operator }}</div>
-      <div>res: {{ obj.res }}</div>
+      <div>display: {{ display }}</div>
+      <div>num1: {{ num1 }}</div>
+      <div>num2: {{ num2 }}</div>
+      <div>operator: {{ operator }}</div>
+      <div>res: {{ res }}</div>
     </div>
   </div>
 </template>
@@ -49,80 +49,93 @@
 export default {
   data() {
     return {
-      obj: {
-        display: "",
-        num1: "",
-        num2: "",
-        operator: "",
-        res: "",
-      },
+      display: "",
+      num1: "",
+      num2: "",
+      operator: "",
+      res: "",
     };
   },
 
   methods: {
     addNum(num) {
-      if (this.obj.operator) {
-        this.obj.num2 += num;
-        this.obj.display = this.obj.num2;
+      if (this.operator) {
+        this.num2 += num;
+        this.display = this.num2;
       } else {
-        this.obj.num1 += num;
-        this.obj.display = this.obj.num1;
+        this.num1 += num;
+        this.display = this.num1;
       }
     },
 
-    addOperator(operator) {
-      if (this.obj.num2) {
-        this.obj.num1 = +this.obj.num1 + +this.obj.num2;
-        this.obj.display = this.obj.num1;
-        this.obj.num2 = "";
+    getRes(operator) {
+      if (this.operator) {
+        switch (this.operator) {
+          case "+":
+            this.operator = operator;
+            this.num1 = +this.num1 + +this.num2;
+            this.display = this.num1;
+            this.num2 = "";
+            break;
+
+          case "-":
+            this.operator = operator;
+            this.num1 = +this.num1 - +this.num2;
+            this.display = this.num1;
+            this.num2 = "";
+            break;
+
+          case "*":
+            this.operator = operator;
+            this.num1 = +this.num1 * +this.num2;
+            this.display = this.num1;
+            this.num2 = "";
+            break;
+
+          case "/":
+            this.operator = operator;
+            this.num1 = +this.num1 / +this.num2;
+            this.display = this.num1;
+            this.num2 = "";
+            break;
+
+          case "%":
+            this.operator = operator;
+            this.num1 = (+this.num1 * +this.num2) / 100;
+            this.display = this.num1;
+            this.num2 = "";
+            break;
+
+          case "=":
+            if (this.num1 && this.num2) {
+              this.res = +this.num1 + +this.num2;
+              break;
+            }
+
+          default:
+            break;
+        }
+      } else {
+        this.operator = operator;
       }
-      this.obj.operator = operator;
     },
 
-    getRes() {
-      switch (this.obj.operator) {
-        case "+":
-          this.obj.res = +this.obj.num1 + +this.obj.num2;
-          this.obj.display = this.obj.res;
-          this.obj.num1 = this.obj.res;
-          this.obj.num2 = "";
-          break;
-
-        case "-":
-          this.obj.res = +this.obj.num1 - +this.obj.num2;
-          this.obj.display = this.obj.res;
-          this.obj.num1 = this.obj.res;
-          break;
-
-        case "*":
-          this.obj.res = +this.obj.num1 * +this.obj.num2;
-          this.obj.display = this.obj.res;
-          this.obj.num1 = this.obj.res;
-          break;
-
-        case "/":
-          this.obj.res = +this.obj.num1 / +this.obj.num2;
-          this.obj.display = this.obj.res;
-          this.obj.num1 = this.obj.res;
-          break;
-
-        case "%":
-          this.obj.res = (+this.obj.num1 * +this.obj.num2) / 100;
-          this.obj.display = this.obj.res;
-          this.obj.num1 = this.obj.res;
-          break;
-
-        default:
-          break;
+    sign(event) {
+      if (!this.num2) {
+        this.num1 = -this.num1;
+        this.display = this.num1;
+      } else {
+        this.num2 = -this.num2;
+        this.display = this.num2;
       }
     },
 
     clear() {
-      this.obj.display = "";
-      this.obj.num1 = "";
-      this.obj.num2 = "";
-      this.obj.operator = "";
-      this.obj.res = "";
+      this.num1 = "";
+      this.num2 = "";
+      this.res = "";
+      this.operator = "";
+      this.display = "";
     },
   },
 
@@ -235,8 +248,9 @@ export default {
   }
 }
 .test {
-  width: 10%;
+  width: 50%;
   margin: 10px auto;
   border: 1px solid #000;
+  color: #fff;
 }
 </style>
