@@ -251,6 +251,6 @@ export default {
   width: 50%;
   margin: 10px auto;
   border: 1px solid #000;
-  color: #fff;
+  color: yellow;
 }
 </style>
